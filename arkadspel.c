@@ -6,36 +6,46 @@ struct player
 {
     int pos_x;
     int pos_y;
+    int speed;
 } player;
+
+struct entity
+{
+    int pos_x;
+    int pos_y;
+};
+
 
 Texture2D ship_img;
 
 void LoadPlayer() 
 {
     Image player_image = LoadImage("Images/player_image.png");
-    ImageResize(&player_image, 44, 48);
+    // ImageResize(&player_image, 44, 48);
     ship_img = LoadTextureFromImage(player_image);
     UnloadImage(player_image);
 }
 
 void PlayerMovement()
 {
+    player.speed = 4;
+
     // Player movement on keypress
     if (IsKeyDown(KEY_A))
     {
-        player.pos_x -= 4;
+        player.pos_x -= player.speed;
     }
     if (IsKeyDown(KEY_D))
     {
-        player.pos_x += 4;
+        player.pos_x += player.speed;
     }
     if (IsKeyDown(KEY_W))
     {
-        player.pos_y -= 4;
+        player.pos_y -= player.speed;
     }
     if (IsKeyDown(KEY_S))
     {
-        player.pos_y += 4;
+        player.pos_y += player.speed;
     }
     
     // Player movement limits
