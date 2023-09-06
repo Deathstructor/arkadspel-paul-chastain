@@ -3,8 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-.vscode
-.DS_Store
+**/.vscode/
+**/.DS_Store
 
 # User-specific files
 *.rsuser
