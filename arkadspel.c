@@ -10,7 +10,7 @@ struct player
 
 Texture2D ship_img;
 
-void loadPlayer()
+void LoadPlayer()
 {
     Image player_image = LoadImage("Images/player_image.png");
     ImageResize(&player_image, 44, 48);
@@ -18,7 +18,25 @@ void loadPlayer()
     UnloadImage(player_image);
 }
 
-
+void PlayerMovement()
+{
+    if (IsKeyDown(KEY_A))
+    {
+        player.pos_x -= 4;
+    }
+    if (IsKeyDown(KEY_D))
+    {
+        player.pos_x += 4;
+    }
+    if (IsKeyDown(KEY_W))
+    {
+        player.pos_y -= 4;
+    }
+    if (IsKeyDown(KEY_S))
+    {
+        player.pos_y += 4;
+    }
+}
 
 int main()
 {
@@ -28,7 +46,7 @@ int main()
     player.pos_x = GetScreenWidth()/2 - 22;
     player.pos_y = 900;
 
-    loadPlayer();
+    LoadPlayer();
     
     while (!WindowShouldClose())
     {
@@ -36,6 +54,7 @@ int main()
         ClearBackground(BLACK);
 
         DrawTexture(ship_img, player.pos_x, player.pos_y, WHITE);
+        PlayerMovement();
 
         EndDrawing();
     }
