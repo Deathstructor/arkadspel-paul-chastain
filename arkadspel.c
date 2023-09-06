@@ -10,7 +10,7 @@ struct player
 
 Texture2D ship_img;
 
-void LoadPlayer()
+void LoadPlayer() 
 {
     Image player_image = LoadImage("Images/player_image.png");
     ImageResize(&player_image, 44, 48);
@@ -20,6 +20,7 @@ void LoadPlayer()
 
 void PlayerMovement()
 {
+    // Player movement on keypress
     if (IsKeyDown(KEY_A))
     {
         player.pos_x -= 4;
@@ -36,6 +37,24 @@ void PlayerMovement()
     {
         player.pos_y += 4;
     }
+    
+    // Player movement limits
+    if (player.pos_x < 0)
+    {
+        player.pos_x = 0;
+    }
+    if (player.pos_x > GetScreenWidth() - 44)
+    {
+        player.pos_x = GetScreenWidth() - 44;
+    }
+    if (player.pos_y < 750)
+    {
+        player.pos_y = 750;
+    }
+    if (player.pos_y > GetScreenHeight() - 48)
+    {
+        player.pos_y = GetScreenHeight() - 48;
+    }    
 }
 
 int main()
