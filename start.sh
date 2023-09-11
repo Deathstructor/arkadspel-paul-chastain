@@ -1,3 +1,4 @@
 clear
-cc arkadspel.c `pkg-config --libs --cflags raylib` -o Arkadspel
+rm Build/Arkadspel
+cc arkadspel.c `pkg-config --libs --cflags raylib` -o Build/Arkadspel
 ./Arkadspel
