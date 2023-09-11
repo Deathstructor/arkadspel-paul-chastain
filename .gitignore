@@ -5,6 +5,7 @@
 
 **/.vscode/
 **/.DS_Store
+**/Build/
 
 # User-specific files
 *.rsuser
