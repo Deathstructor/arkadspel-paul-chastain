@@ -36,7 +36,7 @@ void PlayerShooting()
         {
             projectiles[i].pos.y -= 8;
 
-            if (projectiles[i].exist && projectiles[i].pos.y < 0 - projectiles->size.y)
+            if (projectiles[i].pos.y < 0 - projectiles->size.y)
             {
                 projectiles[i].exist = false;
             }
