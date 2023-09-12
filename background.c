@@ -1,6 +1,6 @@
 #include "raylib.h"
 
-typedef struct
+typedef struct particle
 {
     Vector2 pos;
     int speed;
