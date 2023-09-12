@@ -5,12 +5,6 @@
 #include "projectile.c"
 #include "background.c"
 
-typedef struct entity
-{
-    int pos_x;
-    int pos_y;
-} entity;
-
 int main()
 {
     SetTargetFPS(60);
