@@ -1,10 +1,9 @@
 #include "raylib.h"
-#include "raymath.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-// #include "player.c"
 #include "projectile.c"
+#include "background.c"
 
 typedef struct entity
 {
@@ -26,6 +25,8 @@ int main()
     {
         BeginDrawing();
         ClearBackground(BLACK);
+
+        BackgroundEffect();
 
         DrawTexture(ship_img, player.pos_x, player.pos_y, WHITE);
         PlayerMovement();
