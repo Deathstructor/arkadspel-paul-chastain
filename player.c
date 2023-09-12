@@ -9,6 +9,7 @@ struct player
 
 Texture2D ship_img;
 
+// Function that loads the player textures
 void LoadPlayer()
 {
     Image player_image = LoadImage("Images/player_image.png");

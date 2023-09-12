@@ -16,10 +16,12 @@ projectile projectiles[max_shots] = {0};
 
 void PlayerShooting()
 {
-    if (IsKeyPressed(KEY_SPACE))
+    if (IsKeyPressed(KEY_SPACE)) // What happens if you press Space
     {
         for (int i = 0; i < max_shots; i++)
         {
+            // If a projectile doesn't exist, it will set the following values
+            // to the variables for each index of the AoS projectiles.
             if (!projectiles[i].exist)
             {
                 projectiles[i].pos = (Vector2){player.pos_x + 20, player.pos_y - 12};
@@ -32,6 +34,7 @@ void PlayerShooting()
 
     for (int i = 0; i < max_shots; i++)
     {
+        // Checks if the projectile exists and removes is if it goes off screen.
         if (projectiles[i].exist)
         {
             projectiles[i].pos.y -= 8;
@@ -41,6 +44,7 @@ void PlayerShooting()
                 projectiles[i].exist = false;
             }
 
+            // Draws the projectile
             DrawRectangle(projectiles[i].pos.x, projectiles[i].pos.y, projectiles[i].size.x, projectiles[i].size.y, RED);
         }
     }

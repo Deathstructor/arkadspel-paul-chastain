@@ -14,6 +14,8 @@ void BackgroundEffect()
 {
     for (int i = 0; i < particle_amount; i++)
     {
+        // If the particle doesn't exist, the following values will be set
+        // to the variables of each index for the AoS particles.
         if (!particles[i].exist)
         {
             particles[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), GetRandomValue(-700, 0)};
@@ -21,6 +23,7 @@ void BackgroundEffect()
             particles[i].exist = true;
         }
 
+        // Checks if a particle exists and removes it if it goes off screen. Also draws the particle.
         if (particles[i].exist)
         {
             particles[i].pos.y += particles[i].speed;
