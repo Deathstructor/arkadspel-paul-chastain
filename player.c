@@ -2,8 +2,7 @@
 
 struct player
 {
-    int pos_x;
-    int pos_y;
+    Vector2 pos;
     int speed;
 } player;
 
@@ -24,36 +23,36 @@ void PlayerMovement()
     // Player movement on keypress
     if (IsKeyDown(KEY_A))
     {
-        player.pos_x -= player.speed;
+        player.pos.x -= player.speed;
     }
     if (IsKeyDown(KEY_D))
     {
-        player.pos_x += player.speed;
+        player.pos.x += player.speed;
     }
     if (IsKeyDown(KEY_W))
     {
-        player.pos_y -= player.speed;
+        player.pos.y -= player.speed;
     }
     if (IsKeyDown(KEY_S))
     {
-        player.pos_y += player.speed;
+        player.pos.y += player.speed;
     }
 
     // Player movement limits
-    if (player.pos_x < 0)
+    if (player.pos.x < 0)
     {
-        player.pos_x = 0;
+        player.pos.x = 0;
     }
-    if (player.pos_x > GetScreenWidth() - 44)
+    if (player.pos.x > GetScreenWidth() - 44)
     {
-        player.pos_x = GetScreenWidth() - 44;
+        player.pos.x = GetScreenWidth() - 44;
     }
-    if (player.pos_y < 600)
+    if (player.pos.y < 600)
     {
-        player.pos_y = 600;
+        player.pos.y = 600;
     }
-    if (player.pos_y > GetScreenHeight() - 48)
+    if (player.pos.y > GetScreenHeight() - 48)
     {
-        player.pos_y = GetScreenHeight() - 48;
+        player.pos.y = GetScreenHeight() - 48;
     }
 }

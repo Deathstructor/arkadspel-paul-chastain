@@ -24,7 +24,7 @@ void PlayerShooting()
             // to the variables for each index of the AoS projectiles.
             if (!projectiles[i].exist)
             {
-                projectiles[i].pos = (Vector2){player.pos_x + 20, player.pos_y - 12};
+                projectiles[i].pos = (Vector2){player.pos.x + 20, player.pos.y - 12};
                 projectiles[i].size = (Vector2){4, 20};
                 projectiles[i].exist = true;
                 break;
