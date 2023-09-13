@@ -32,8 +32,23 @@ void BackgroundEffect()
             {
                 particles[i].exist = false;
             }
-            
-            DrawRectangle(particles[i].pos.x, particles[i].pos.y, 1, 1, WHITE);
-        }   
+
+            if (particles[i].speed == 2)
+            {
+                DrawRectangle(particles[i].pos.x, particles[i].pos.y, 1, 1, DARKGRAY);
+            }
+            if (particles[i].speed == 3)
+            {
+                DrawRectangle(particles[i].pos.x, particles[i].pos.y, 1, 1, GRAY);
+            }
+            if (particles[i].speed == 4)
+            {
+                DrawRectangle(particles[i].pos.x, particles[i].pos.y, 1, 1, LIGHTGRAY);
+            }
+            if (particles[i].speed == 5)
+            {
+                DrawRectangle(particles[i].pos.x, particles[i].pos.y, 1, 1, WHITE);
+            }
+        }
     }
 }
