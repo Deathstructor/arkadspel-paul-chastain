@@ -1,5 +1,3 @@
-#include "raylib.h"
-
 typedef struct particle
 {
     Vector2 pos;

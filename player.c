@@ -1,5 +1,3 @@
-#include "raylib.h"
-
 struct player
 {
     Vector2 pos;

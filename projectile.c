@@ -1,6 +1,3 @@
-#include "raylib.h"
-#include "player.c"
-
 typedef struct projectile
 {
     Vector2 pos;
