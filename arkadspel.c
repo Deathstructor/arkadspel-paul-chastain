@@ -33,12 +33,8 @@ int main()
         EnemyMovement();                                          // Loads the enemies movements
 
         EndDrawing();
-        enemy_behavior_cooldown -= GetFrameTime();
-        if (enemy_behavior_cooldown <= 0)
-        {
-            BehaviorUpdate();
-            enemy_behavior_cooldown = 5;
-        }
+
+        BehaviorUpdate(); // Updates the enemy behavior
     }
 
     return 0;
