@@ -27,6 +27,26 @@ void LoadEnemies()
 {
     for (int i = 0; i < max_enemy_amount; i++)
     {
+        Image enemy_image1 = LoadImage("Images/enemy_image1.png");
+        Image enemy_image2 = LoadImage("Images/enemy_image2.png");
+        Image enemy_image3 = LoadImage("Images/enemy_image3.png");
+        Image enemy_image4 = LoadImage("Images/enemy_image4.png");
+        Image enemy_image5 = LoadImage("Images/enemy_image5.png");
+        Image enemy_image6 = LoadImage("Images/enemy_image6.png");
+
+        ship_img = LoadTextureFromImage(enemy_image1);
+        ship_img = LoadTextureFromImage(enemy_image2);
+        ship_img = LoadTextureFromImage(enemy_image3);
+        ship_img = LoadTextureFromImage(enemy_image4);
+        ship_img = LoadTextureFromImage(enemy_image5);
+        ship_img = LoadTextureFromImage(enemy_image6);
+
+        UnloadImage(enemy_image1);
+        UnloadImage(enemy_image2);
+        UnloadImage(enemy_image3);
+        UnloadImage(enemy_image4);
+        UnloadImage(enemy_image5);
+        UnloadImage(enemy_image6);
     }
 }
 
