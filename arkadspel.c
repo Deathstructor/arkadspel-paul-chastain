@@ -6,6 +6,7 @@
 #include "projectile.c"
 #include "background.c"
 #include "enemy.c"
+#include "collision.c"
 
 int main()
 {
@@ -28,9 +29,11 @@ int main()
         BackgroundEffect(); // Draws the background effect
 
         DrawTexture(ship_img, player.pos.x, player.pos.y, WHITE); // Draws the player textures
+        DrawEnemies();                                            // Draws the enemy textures
         PlayerMovement();                                         // Loads the player movements and movement limits
         PlayerShooting();                                         // Loads the projectiles for the player
         EnemyMovement();                                          // Loads the enemies movements
+        EnemyHitbox();                                            // Loads the enemies hitboxes
 
         EndDrawing();
 
