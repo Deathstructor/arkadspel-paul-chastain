@@ -5,21 +5,36 @@ typedef enum behavior
     DEFENCE_MODE
 } behavior;
 
+typedef enum enemy_states
+{
+    STATE_PATH,
+    STATE_FORMATION,
+    STATE_DIVE
+} enemy_states;
+
 typedef struct enemy
 {
     Vector2 pos;
-    Vector2 random_passive_pos;
     float speed;
+
+    Vector2 random_passive_pos;
     behavior behaviors;
     int random_behavior_num;
+
+    int current_state;
+    
     int shoot_cooldown;
     int img_randomizer;
     bool exist;
+
     Rectangle view_area;
     Rectangle hitbox;
+
+    int following;
+    float completion;
 } enemy;
 
-const int max_enemy_amount = 10;
+const int max_enemy_amount = 20;
 enemy enemies[max_enemy_amount];
 int current_enemies = 0;
 int behavior_cooldown = 0; // Variable used as cooldown timer for the behavior to change
@@ -29,6 +44,9 @@ Texture2D alien_img[6];
 // Loads all enemy textures
 void LoadEnemies()
 {
+    // char *name = TextFormat("Images/enemy_image%i.png", i);
+    // alien_img[i - 1] = LoadTexture(name);
+
     Image enemy_image1 = LoadImage("Images/enemy_image1.png");
     Image enemy_image2 = LoadImage("Images/enemy_image2.png");
     Image enemy_image3 = LoadImage("Images/enemy_image3.png");
@@ -55,6 +73,7 @@ void DrawEnemies()
 {
     for (int i = 0; i < max_enemy_amount; i++)
     {
+        // DrawTexture(alien_img[0], enemies[i].pos.x, enemies[i].pos.y, WHITE);
         if(enemies[i].img_randomizer == 0) DrawTexture(alien_img[0], enemies[i].pos.x, enemies[i].pos.y, WHITE);
         if(enemies[i].img_randomizer == 1) DrawTexture(alien_img[1], enemies[i].pos.x, enemies[i].pos.y, WHITE);
         if(enemies[i].img_randomizer == 2) DrawTexture(alien_img[2], enemies[i].pos.x, enemies[i].pos.y, WHITE);
@@ -88,7 +107,10 @@ void EnemyMovement()
         // Assigns values if the enemy does not exist
         if (!enemies[i].exist)
         {
-            enemies[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), -50};
+            // enemies[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), -50};
+            enemies[0].following = 0;
+            enemies[0].completion = 0;
+
             enemies[i].img_randomizer = GetRandomValue(0, 5);
             enemies[i].exist = true;
         }
@@ -97,36 +119,47 @@ void EnemyMovement()
         {
             enemies[i].hitbox = (Rectangle){enemies[i].pos.x, enemies[i].pos.y, 44, 48};
 
-            if (enemies[i].pos.y < 50)
-            {
-                enemies[i].pos.y++;
-            }
+            // if (enemies[i].pos.y < 50)
+            // {
+            //     enemies[i].pos.y++;
+            // }
 
-            switch (enemies[i].random_behavior_num)
+            switch (0)
             {
-            case ATTACK_MODE:
-                enemies[i].speed = 0.018;
-                enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){player.pos.x, player.pos.y - 200}, enemies[i].speed);
+            case 0:
+                enemies[i].following = 0;
                 break;
-            case PASSIVE_MODE:
-                enemies[i].speed = 0.008;
-                enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){enemies[i].random_passive_pos.x, enemies[i].random_passive_pos.y}, enemies[i].speed);
-                break;
-            case DEFENCE_MODE:
-                enemies[i].speed = 0.012;
-                // if (CheckCollisionPointRec(enemies[i].view_area, INPUT PROJECTILE CODE HERE))
-                // {
-                //     /* code */
-                // }
 
-                enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){player.pos.x, player.pos.y - 200}, enemies[i].speed);
-                // TODO: Use pointrec
-                break;
             default:
                 break;
             }
+
+            // switch (enemies[i].random_behavior_num)
+            // {
+            // case ATTACK_MODE:
+            //     enemies[i].speed = 0.018;
+            //     enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){player.pos.x, player.pos.y - 200}, enemies[i].speed);
+            //     break;
+            // case PASSIVE_MODE:
+            //     enemies[i].speed = 0.008;
+            //     enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){enemies[i].random_passive_pos.x, enemies[i].random_passive_pos.y}, enemies[i].speed);
+            //     break;
+            // case DEFENCE_MODE:
+            //     enemies[i].speed = 0.012;
+            //     // if (CheckCollisionPointRec(enemies[i].view_area, INPUT PROJECTILE CODE HERE))
+            //     // {
+            //     //     /* code */
+            //     // }
+
+            //     enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){player.pos.x, player.pos.y - 200}, enemies[i].speed);
+            //     // TODO: Use pointrec
+            //     break;
+            // default:
+            //     break;
+            // }
             // enemies[i].view_area = (Rectangle){enemies[i].pos.x - 50, enemies[i].pos.y, enemies[i].pos.x - 50, enemies[i].pos.y + 200};
         }
         // DrawRectangleRec(enemies[i].view_area, YELLOW);
+        // DrawRectangleRec(enemies[i].hitbox, YELLOW);
     }
 }
