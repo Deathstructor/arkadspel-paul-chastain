@@ -112,10 +112,8 @@ void EnemyMovement()
         // Assigns values if the enemy does not exist
         if (!enemies[i].exist)
         {
-            // enemies[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), -50};
             enemies[i].pos = (Vector2){0, -50};
             enemies[i].following = 0;
-            // enemies[i].completion = -1;
             enemies[i].spawn_cooldown = 0;
             enemies[i].exist = true;
         }

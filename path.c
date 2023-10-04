@@ -17,7 +17,6 @@ typedef struct path
 // Calulate linear interpolation along a Bézier curve
 Vector2 QuadraticLerp(curve c, float t)
 {
-    Vector2 result = Vector2Zero();
     Vector2 A = Vector2Lerp(c.startPos, c.startControlPos, t);
     Vector2 B = Vector2Lerp(c.startControlPos, c.endControlPos, t);
     Vector2 C = Vector2Lerp(c.endControlPos, c.endPos, t);
@@ -68,26 +67,26 @@ path p1_right = (path){
     .current_path = 0,
     .curves = {
         (curve){
-            .startPos = (Vector2){660 * 0.5, -100},
-            .endPos = (Vector2){660 * 0.5, 100},
-            .startControlPos = (Vector2){660 * 0.5, 0},
-            .endControlPos = (Vector2){660 * 0.5, 0},
+            .startPos = (Vector2){660 * 0.5 + 50, -100},
+            .endPos = (Vector2){660 * 0.5 + 50, 100},
+            .startControlPos = (Vector2){660 * 0.5 + 50, 0},
+            .endControlPos = (Vector2){660 * 0.5 + 50, 0},
             .thick = 2,
             .color = YELLOW,
         },
         (curve){
-            .startPos = (Vector2){660 * 0.5, 100},
-            .endPos = (Vector2){510, 350},
-            .startControlPos = (Vector2){660 * 0.5, 200},
-            .endControlPos = (Vector2){510, 250},
+            .startPos = (Vector2){660 * 0.5 + 50, 100},
+            .endPos = (Vector2){560, 350},
+            .startControlPos = (Vector2){660 * 0.5 + 50, 200},
+            .endControlPos = (Vector2){560, 250},
             .thick = 2,
             .color = YELLOW,
         },
         (curve){
-            .startPos = (Vector2){510, 350},
-            .endPos = (Vector2){335, 350},
-            .startControlPos = (Vector2){510, 500},
-            .endControlPos = (Vector2){335, 500},
+            .startPos = (Vector2){560, 350},
+            .endPos = (Vector2){385, 350},
+            .startControlPos = (Vector2){560, 500},
+            .endControlPos = (Vector2){385, 500},
             .thick = 2,
             .color = YELLOW,
         },
