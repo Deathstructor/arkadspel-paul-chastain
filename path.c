@@ -27,6 +27,14 @@ Vector2 QuadraticLerp(curve c, float t)
     return point;
 }
 
+void PathOrder()
+{
+    for (int i = 0; i < 20; i++)
+    {
+        enemies[i].completion = (-i % 10) * 0.4;
+    }
+}
+
 path p1_left = (path){
     .current_path = 0,
     .curves = {
@@ -60,26 +68,26 @@ path p1_right = (path){
     .current_path = 0,
     .curves = {
         (curve){
-            .startPos = (Vector2){660 * 0.5 + 50, -100},
-            .endPos = (Vector2){660 * 0.5 + 50, 100},
-            .startControlPos = (Vector2){660 * 0.5 + 50, 0},
-            .endControlPos = (Vector2){660 * 0.5 + 50, 0},
+            .startPos = (Vector2){660 * 0.5, -100},
+            .endPos = (Vector2){660 * 0.5, 100},
+            .startControlPos = (Vector2){660 * 0.5, 0},
+            .endControlPos = (Vector2){660 * 0.5, 0},
             .thick = 2,
             .color = YELLOW,
         },
         (curve){
-            .startPos = (Vector2){660 * 0.5 + 50, 100},
-            .endPos = (Vector2){560, 350},
-            .startControlPos = (Vector2){660 * 0.5 + 50, 200},
-            .endControlPos = (Vector2){560, 250},
+            .startPos = (Vector2){660 * 0.5, 100},
+            .endPos = (Vector2){510, 350},
+            .startControlPos = (Vector2){660 * 0.5, 200},
+            .endControlPos = (Vector2){510, 250},
             .thick = 2,
             .color = YELLOW,
         },
         (curve){
-            .startPos = (Vector2){560, 350},
-            .endPos = (Vector2){385, 350},
-            .startControlPos = (Vector2){560, 500},
-            .endControlPos = (Vector2){385, 500},
+            .startPos = (Vector2){510, 350},
+            .endPos = (Vector2){335, 350},
+            .startControlPos = (Vector2){510, 500},
+            .endControlPos = (Vector2){335, 500},
             .thick = 2,
             .color = YELLOW,
         },
@@ -89,15 +97,35 @@ void FollowPath()
 {
     if (enemies[0].following > 2)
     {
-        enemies[0].following = 0;
-        // enemies[0].current_state = STATE_FORMATION;
+        enemies[0].current_state = STATE_FORMATION;
     }
 
-    enemies[0].completion += 1.0f * GetFrameTime();
-    if (enemies[0].completion >= 1.0f)
+    // Follow path 1
+    for (int i = 0; i < 20; i++)
     {
-        enemies[0].completion -= 1.0f;
-        enemies[0].following++;
+        enemies[i].spawn_cooldown += 0.5f * GetFrameTime();
+        if (enemies[i].spawn_cooldown > 1 && enemies[i].following < 3)
+        {
+            enemies[i].completion += 1.0f * GetFrameTime();
+            if (enemies[i].completion >= 1.0f)
+            {
+                enemies[i].completion -= 1.0f;
+                enemies[i].following++;
+            }
+            else
+            {
+                enemies[i].prev_pos = enemies[i].pos;
+
+                if (i < 10)
+                {
+                    enemies[i].pos = QuadraticLerp(p1_left.curves[enemies[i].following], enemies[i].completion);
+                }
+                else 
+                {
+                    enemies[i].pos = QuadraticLerp(p1_right.curves[enemies[i].following], enemies[i].completion);
+                }
+                
+            }
+        }
     }
-    enemies[0].pos = QuadraticLerp(p1_left.curves[enemies[0].following], enemies[0].completion);
 }
