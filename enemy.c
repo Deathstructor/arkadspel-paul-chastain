@@ -14,20 +14,21 @@ typedef enum enemy_states
 
 typedef struct enemy
 {
+    Vector2 prev_pos;
     Vector2 pos;
     float speed;
+    float rot;
 
     Vector2 random_passive_pos;
     behavior behaviors;
     int random_behavior_num;
 
     int current_state;
-    
+
+    float spawn_cooldown;
     int shoot_cooldown;
     int img_randomizer;
     bool exist;
-
-    Rectangle view_area;
     Rectangle hitbox;
 
     int following;
@@ -74,65 +75,62 @@ void DrawEnemies()
     for (int i = 0; i < max_enemy_amount; i++)
     {
         // DrawTexture(alien_img[0], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if(enemies[i].img_randomizer == 0) DrawTexture(alien_img[0], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if(enemies[i].img_randomizer == 1) DrawTexture(alien_img[1], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if(enemies[i].img_randomizer == 2) DrawTexture(alien_img[2], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if(enemies[i].img_randomizer == 3) DrawTexture(alien_img[3], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if(enemies[i].img_randomizer == 4) DrawTexture(alien_img[4], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if(enemies[i].img_randomizer == 5) DrawTexture(alien_img[5], enemies[i].pos.x, enemies[i].pos.y, WHITE);
+        if (enemies[i].img_randomizer == 0)
+            DrawTexture(alien_img[0], enemies[i].pos.x, enemies[i].pos.y, WHITE);
+        if (enemies[i].img_randomizer == 1)
+            DrawTexture(alien_img[1], enemies[i].pos.x, enemies[i].pos.y, WHITE);
+        if (enemies[i].img_randomizer == 2)
+            DrawTexture(alien_img[2], enemies[i].pos.x, enemies[i].pos.y, WHITE);
+        if (enemies[i].img_randomizer == 3)
+            DrawTexture(alien_img[3], enemies[i].pos.x, enemies[i].pos.y, WHITE);
+        if (enemies[i].img_randomizer == 4)
+            DrawTexture(alien_img[4], enemies[i].pos.x, enemies[i].pos.y, WHITE);
+        if (enemies[i].img_randomizer == 5)
+            DrawTexture(alien_img[5], enemies[i].pos.x, enemies[i].pos.y, WHITE);
     }
 }
 
 // The cooldown for the enemies to change behavior
-void BehaviorUpdate()
-{
-    if (behavior_cooldown <= 0)
-    {
-        for (int i = 0; i < max_enemy_amount; i++)
-        {
-            enemies[i].random_behavior_num = GetRandomValue(0, 2);                                                                          // Randomizes a new behavior
-            enemies[i].random_passive_pos = (Vector2){GetScreenWidth() * 0.5 + GetRandomValue(-150, 150), 200 + GetRandomValue(-200, 200)}; // Randomizes a new position for passive mode enemies
-        }
-        behavior_cooldown = 300;
-    }
-    behavior_cooldown -= GetFrameTime();
-}
+// void BehaviorUpdate()
+// {
+//     if (behavior_cooldown <= 0)
+//     {
+//         for (int i = 0; i < max_enemy_amount; i++)
+//         {
+//             enemies[i].random_behavior_num = GetRandomValue(0, 2);                                                                          // Randomizes a new behavior
+//             enemies[i].random_passive_pos = (Vector2){GetScreenWidth() * 0.5 + GetRandomValue(-150, 150), 200 + GetRandomValue(-200, 200)}; // Randomizes a new position for passive mode enemies
+//         }
+//         behavior_cooldown = 300;
+//     }
+//     behavior_cooldown -= GetFrameTime();
+// }
 
 void EnemyMovement()
 {
-    current_enemies = GetRandomValue(1, max_enemy_amount);
-
     for (int i = 0; i < max_enemy_amount; i++)
     {
         // Assigns values if the enemy does not exist
         if (!enemies[i].exist)
         {
             // enemies[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), -50};
-            enemies[0].following = 0;
-            enemies[0].completion = 0;
-
-            enemies[i].img_randomizer = GetRandomValue(0, 5);
+            enemies[i].pos = (Vector2){0, -50};
+            enemies[i].following = 0;
+            // enemies[i].completion = -1;
+            enemies[i].spawn_cooldown = 0;
             enemies[i].exist = true;
         }
 
         if (enemies[i].exist)
         {
-            enemies[i].hitbox = (Rectangle){enemies[i].pos.x, enemies[i].pos.y, 44, 48};
+            enemies[i].hitbox = (Rectangle){enemies[i].pos.x - 22, enemies[i].pos.y - 24, 44, 48};
 
-            // if (enemies[i].pos.y < 50)
-            // {
-            //     enemies[i].pos.y++;
-            // }
-
-            switch (0)
-            {
-            case 0:
-                enemies[i].following = 0;
-                break;
-
-            default:
-                break;
-            }
+            DrawTexturePro(
+                alien_img[0],
+                (Rectangle){0, 0, 44, 48},
+                (Rectangle){enemies[i].pos.x , enemies[i].pos.y, 44, 48},
+                (Vector2){22, 24},
+                Vector2Angle(enemies[i].pos, enemies[i].prev_pos) * RAD2DEG + 90,
+                WHITE);
 
             // switch (enemies[i].random_behavior_num)
             // {
