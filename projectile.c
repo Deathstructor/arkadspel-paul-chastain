@@ -10,7 +10,7 @@ typedef struct projectile
 } projectile;
 
 const int max_shots = 50;
-projectile projectiles[max_shots] = {0};
+projectile projectiles[max_shots];
 
 void PlayerShooting()
 {
