@@ -16,7 +16,7 @@ void BackgroundEffect()
         // to the variables of each index for the AoS particles.
         if (!particles[i].exist)
         {
-            particles[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), GetRandomValue(-700, 0)};
+            particles[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), GetRandomValue(0, GetScreenHeight())};
             particles[i].speed = GetRandomValue(2, 5);
             particles[i].exist = true;
         }
@@ -28,7 +28,7 @@ void BackgroundEffect()
 
             if (particles[i].pos.y > GetScreenHeight())
             {
-                particles[i].exist = false;
+                particles[i].pos = (Vector2){GetRandomValue(0, GetScreenWidth()), GetRandomValue(-700, 0)};
             }
 
             if (particles[i].speed == 2)
