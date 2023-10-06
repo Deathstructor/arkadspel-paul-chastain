@@ -38,9 +38,13 @@ int main()
         EnemyMovement();                                          // Loads the enemies movements
         EnemyHitbox();                                            // Loads the enemies hitboxes
 
-        // SetRandomNum();
-        FollowPath();
-        SetFormation();
+        // What happens if there are enemies alive
+        if (current_enemies > 0)
+        {
+            // SetRandomNum();
+            FollowPath();   // Makes the enemies follow a path
+            SetFormation(); // Sets an enemy target position in the formation
+        }
 
         EndDrawing();
     }

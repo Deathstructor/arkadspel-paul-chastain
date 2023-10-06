@@ -61,26 +61,6 @@ void LoadEnemies()
     UnloadImage(enemy_image6);
 }
 
-void DrawEnemies()
-{
-    for (int i = 0; i < max_enemy_amount; i++)
-    {
-        // DrawTexture(alien_img[0], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if (enemies[i].img_randomizer == 0)
-            DrawTexture(alien_img[0], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if (enemies[i].img_randomizer == 1)
-            DrawTexture(alien_img[1], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if (enemies[i].img_randomizer == 2)
-            DrawTexture(alien_img[2], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if (enemies[i].img_randomizer == 3)
-            DrawTexture(alien_img[3], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if (enemies[i].img_randomizer == 4)
-            DrawTexture(alien_img[4], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-        if (enemies[i].img_randomizer == 5)
-            DrawTexture(alien_img[5], enemies[i].pos.x, enemies[i].pos.y, WHITE);
-    }
-}
-
 void EnemyMovement()
 {
     for (int i = 0; i < max_enemy_amount; i++)
@@ -97,10 +77,12 @@ void EnemyMovement()
             enemies[i].exist = true;
         }
 
+        // What happens if an enemy exists
         if (enemies[i].exist)
         {
-            enemies[i].hitbox = (Rectangle){enemies[i].pos.x - 22, enemies[i].pos.y - 24, 44, 48};
+            enemies[i].hitbox = (Rectangle){enemies[i].pos.x - 22, enemies[i].pos.y - 24, 44, 48}; // Creates the enemy hitbox
 
+            // Rotates the enemy in the direction it's heading unless it's in position where it will be pointing down instead
             if (enemies[i].current_state == STATE_PATH && !enemies[i].in_pos)
             {
                 enemies[i].rotation = Vector2Angle(enemies[i].pos, enemies[i].prev_pos) * RAD2DEG + 90;
@@ -110,6 +92,7 @@ void EnemyMovement()
                 enemies[i].rotation = Lerp(enemies[i].rotation, PI * DEG2RAD, 0.075);
             }
 
+            // Draws the enemy texture
             DrawTexturePro(
                 alien_img[0],
                 (Rectangle){0, 0, 44, 48},

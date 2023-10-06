@@ -26,6 +26,7 @@ Vector2 QuadraticLerp(curve c, float t)
     return point;
 }
 
+// Sets the order that the enemies fly in on the screen
 void PathOrder()
 {
     for (int i = 0; i < max_enemy_amount; i++)
@@ -34,6 +35,7 @@ void PathOrder()
     }
 }
 
+// The shape of the left path for path 1
 path p1_left = (path){
     .current_path = 0,
     .curves = {
@@ -63,6 +65,7 @@ path p1_left = (path){
         },
     }};
 
+// The shape of the right path for path 1
 path p1_right = (path){
     .current_path = 0,
     .curves = {
@@ -92,22 +95,28 @@ path p1_right = (path){
         },
     }};
 
+// Makes the enemies follow a path
 void FollowPath()
 {
     // Follow path 1
     for (int i = 0; i < max_enemy_amount; i++)
     {
-        if (enemies[i].current_state == STATE_PATH)
+        if (enemies[i].current_state == STATE_PATH) // Checks if the current state is path to make the enemy follow a path
         {
+            // Checks if an enemy has reached the paths end and sets its state to STATE_FORMATION to get into a formation
             if (enemies[i].following > 2)
             {
                 enemies[i].current_state = STATE_FORMATION;
                 
             }
 
-            enemies[i].spawn_cooldown += 0.5f * GetFrameTime();
+            enemies[i].spawn_cooldown += 0.5f * GetFrameTime(); // The enemy spawn cooldown
+            // Checks if an enemy should spawn or not
             if (enemies[i].spawn_cooldown > 1 && enemies[i].following < 3)
             {
+                // Updates "completion" that tells where on a curve an enemy should be.
+                // Also update which curve the enemy is on in the path and moves it to
+                // the next one when it reaches the end of a curve.
                 enemies[i].completion += 1.0f * GetFrameTime();
                 if (enemies[i].completion >= 1.0f)
                 {
@@ -116,8 +125,9 @@ void FollowPath()
                 }
                 else
                 {
-                    enemies[i].prev_pos = enemies[i].pos;
+                    enemies[i].prev_pos = enemies[i].pos; // Used to check which direction the enemy should be facing
 
+                    // Moves the enemies on the left and right path
                     if (i < 15)
                     {
                         enemies[i].pos = QuadraticLerp(p1_left.curves[enemies[i].following], enemies[i].completion);

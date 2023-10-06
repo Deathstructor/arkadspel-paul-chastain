@@ -6,18 +6,19 @@ typedef struct formation
     Rectangle pos_tester;
 } formation;
 
-formation formation_box[max_enemy_amount];
+formation target_pos[max_enemy_amount];
 int check_availability[max_enemy_amount];
 int formation_width = 6;
 int formation_height = 5;
 
+// Creates the formation layout
 void CreateFormation()
 {
     for (int x = 0; x < formation_width; x++)
     {
         for (int y = 0; y < formation_height; y++)
         {
-            formation_box[x + y * formation_width].pos = (Vector2){x * 70 + 154.5, y * 60 + 74};
+            target_pos[x + y * formation_width].pos = (Vector2){x * 70 + 154.5, y * 60 + 74};
         }
     }
 }
@@ -40,19 +41,21 @@ void CreateFormation()
 //     }
 // }
 
+// Decides which spot in the formation each enemy should go to
 void SetFormation()
 {
-    float completion_update = 0.1f * GetFrameTime();
+    float completion_update = 0.1f * GetFrameTime(); // Variable to update enemies completion
 
     for (int i = 0; i < max_enemy_amount; i++)
     {
-        if (enemies[i].current_state == STATE_FORMATION)
+        if (enemies[i].current_state == STATE_FORMATION) // Checks if the enemies state is STATE_FORMATION
         {
             enemies[i].completion += completion_update;
 
-            enemies[i].pos = Vector2Lerp(enemies[i].pos , formation_box[i].pos, enemies[i].completion);
+            enemies[i].pos = Vector2Lerp(enemies[i].pos , target_pos[i].pos, enemies[i].completion); // Lerps the enemy to its target position
             // printf("%f", enemies[i].completion);
 
+            // Stopts updating completion and tells the program that the enemy is in position if "completion = 1"
             if (enemies[i].completion >= 1.0f)
             {
                 completion_update = 0;
