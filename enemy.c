@@ -17,7 +17,7 @@ typedef struct enemy
     Vector2 prev_pos;
     Vector2 pos;
     float speed;
-    float rot;
+    float rotation;
 
     Vector2 random_passive_pos;
     behavior behaviors;
@@ -33,9 +33,11 @@ typedef struct enemy
 
     int following;
     float completion;
+    bool in_pos;
+    // int random_formation_pos;
 } enemy;
 
-const int max_enemy_amount = 20;
+const int max_enemy_amount = 30;
 enemy enemies[max_enemy_amount];
 int current_enemies = 0;
 int behavior_cooldown = 0; // Variable used as cooldown timer for the behavior to change
@@ -113,6 +115,9 @@ void EnemyMovement()
         if (!enemies[i].exist)
         {
             enemies[i].pos = (Vector2){0, -50};
+            enemies[i].current_state = 0;
+            enemies[i].in_pos = false;
+            // enemies[i].random_formation_pos = -1;
             enemies[i].following = 0;
             enemies[i].spawn_cooldown = 0;
             enemies[i].exist = true;
@@ -122,12 +127,21 @@ void EnemyMovement()
         {
             enemies[i].hitbox = (Rectangle){enemies[i].pos.x - 22, enemies[i].pos.y - 24, 44, 48};
 
+            if (enemies[i].current_state == STATE_PATH && !enemies[i].in_pos)
+            {
+                enemies[i].rotation = Vector2Angle(enemies[i].pos, enemies[i].prev_pos) * RAD2DEG + 90;
+            }
+            else
+            {
+                enemies[i].rotation = Lerp(enemies[i].rotation, PI * DEG2RAD, 0.075);
+            }
+
             DrawTexturePro(
                 alien_img[0],
                 (Rectangle){0, 0, 44, 48},
-                (Rectangle){enemies[i].pos.x , enemies[i].pos.y, 44, 48},
+                (Rectangle){enemies[i].pos.x, enemies[i].pos.y, 44, 48},
                 (Vector2){22, 24},
-                Vector2Angle(enemies[i].pos, enemies[i].prev_pos) * RAD2DEG + 90,
+                enemies[i].rotation,
                 WHITE);
 
             // switch (enemies[i].random_behavior_num)
@@ -155,7 +169,6 @@ void EnemyMovement()
             // }
             // enemies[i].view_area = (Rectangle){enemies[i].pos.x - 50, enemies[i].pos.y, enemies[i].pos.x - 50, enemies[i].pos.y + 200};
         }
-        // DrawRectangleRec(enemies[i].view_area, YELLOW);
         // DrawRectangleRec(enemies[i].hitbox, YELLOW);
     }
 }
