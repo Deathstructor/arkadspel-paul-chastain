@@ -19,9 +19,10 @@ int main()
     player.pos.x = GetScreenWidth() / 2 - 22;
     player.pos.y = 720;
 
-    LoadPlayer();  // Loads the player texture
-    LoadEnemies(); // Loads the enemy texture
-    PathOrder();   // Sets the order that the enemies are in when following the path
+    LoadPlayer();      // Loads the player texture
+    LoadEnemies();     // Loads the enemy texture
+    PathOrder();       // Sets the order that the enemies are in when following the path
+    CreateFormation(); // Creates the formation shape
 
     // A while loop where everything that needs to be constantly updated is put in.
     while (!WindowShouldClose())
@@ -36,23 +37,12 @@ int main()
         PlayerShooting();                                         // Loads the projectiles for the player
         EnemyMovement();                                          // Loads the enemies movements
         EnemyHitbox();                                            // Loads the enemies hitboxes
-        CreateFormation();                                        // Creates the formation shape
 
         // SetRandomNum();
         FollowPath();
         SetFormation();
 
-        // DrawLineBezierCubic(p1_left.curves[0].startPos, p1_left.curves[0].endPos, p1_left.curves[0].startControlPos, p1_left.curves[0].endControlPos, p1_left.curves[0].thick, p1_left.curves[0].color);
-        // DrawLineBezierCubic(p1_left.curves[1].startPos, p1_left.curves[1].endPos, p1_left.curves[1].startControlPos, p1_left.curves[1].endControlPos, p1_left.curves[1].thick, p1_left.curves[1].color);
-        // DrawLineBezierCubic(p1_left.curves[2].startPos, p1_left.curves[2].endPos, p1_left.curves[2].startControlPos, p1_left.curves[2].endControlPos, p1_left.curves[2].thick, p1_left.curves[2].color);
-
-        // DrawLineBezierCubic(p1_right.curves[0].startPos, p1_right.curves[0].endPos, p1_right.curves[0].startControlPos, p1_right.curves[0].endControlPos, p1_right.curves[0].thick, p1_right.curves[0].color);
-        // DrawLineBezierCubic(p1_right.curves[1].startPos, p1_right.curves[1].endPos, p1_right.curves[1].startControlPos, p1_right.curves[1].endControlPos, p1_right.curves[1].thick, p1_right.curves[1].color);
-        // DrawLineBezierCubic(p1_right.curves[2].startPos, p1_right.curves[2].endPos, p1_right.curves[2].startControlPos, p1_right.curves[2].endControlPos, p1_right.curves[2].thick, p1_right.curves[2].color);
-
         EndDrawing();
-
-        // BehaviorUpdate(); // Updates the enemy behavior
     }
 
     return 0;

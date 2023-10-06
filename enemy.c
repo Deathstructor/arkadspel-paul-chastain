@@ -1,10 +1,3 @@
-typedef enum behavior
-{
-    ATTACK_MODE,
-    PASSIVE_MODE,
-    DEFENCE_MODE
-} behavior;
-
 typedef enum enemy_states
 {
     STATE_PATH,
@@ -16,30 +9,26 @@ typedef struct enemy
 {
     Vector2 prev_pos;
     Vector2 pos;
-    float speed;
-    float rotation;
-
-    Vector2 random_passive_pos;
-    behavior behaviors;
-    int random_behavior_num;
-
-    int current_state;
-
-    float spawn_cooldown;
-    int shoot_cooldown;
-    int img_randomizer;
-    bool exist;
     Rectangle hitbox;
 
-    int following;
+    float speed;
+    float rotation;
+    float spawn_cooldown;
     float completion;
-    bool in_pos;
+
+    int current_state;
+    int shoot_cooldown;
+    int img_randomizer;
+    int following;
     // int random_formation_pos;
+
+    bool exist;
+    bool in_pos;
 } enemy;
 
 const int max_enemy_amount = 30;
 enemy enemies[max_enemy_amount];
-int current_enemies = 0;
+int current_enemies = NULL;
 int behavior_cooldown = 0; // Variable used as cooldown timer for the behavior to change
 
 Texture2D alien_img[6];
@@ -92,21 +81,6 @@ void DrawEnemies()
     }
 }
 
-// The cooldown for the enemies to change behavior
-// void BehaviorUpdate()
-// {
-//     if (behavior_cooldown <= 0)
-//     {
-//         for (int i = 0; i < max_enemy_amount; i++)
-//         {
-//             enemies[i].random_behavior_num = GetRandomValue(0, 2);                                                                          // Randomizes a new behavior
-//             enemies[i].random_passive_pos = (Vector2){GetScreenWidth() * 0.5 + GetRandomValue(-150, 150), 200 + GetRandomValue(-200, 200)}; // Randomizes a new position for passive mode enemies
-//         }
-//         behavior_cooldown = 300;
-//     }
-//     behavior_cooldown -= GetFrameTime();
-// }
-
 void EnemyMovement()
 {
     for (int i = 0; i < max_enemy_amount; i++)
@@ -144,30 +118,6 @@ void EnemyMovement()
                 enemies[i].rotation,
                 WHITE);
 
-            // switch (enemies[i].random_behavior_num)
-            // {
-            // case ATTACK_MODE:
-            //     enemies[i].speed = 0.018;
-            //     enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){player.pos.x, player.pos.y - 200}, enemies[i].speed);
-            //     break;
-            // case PASSIVE_MODE:
-            //     enemies[i].speed = 0.008;
-            //     enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){enemies[i].random_passive_pos.x, enemies[i].random_passive_pos.y}, enemies[i].speed);
-            //     break;
-            // case DEFENCE_MODE:
-            //     enemies[i].speed = 0.012;
-            //     // if (CheckCollisionPointRec(enemies[i].view_area, INPUT PROJECTILE CODE HERE))
-            //     // {
-            //     //     /* code */
-            //     // }
-
-            //     enemies[i].pos = Vector2Lerp(enemies[i].pos, (Vector2){player.pos.x, player.pos.y - 200}, enemies[i].speed);
-            //     // TODO: Use pointrec
-            //     break;
-            // default:
-            //     break;
-            // }
-            // enemies[i].view_area = (Rectangle){enemies[i].pos.x - 50, enemies[i].pos.y, enemies[i].pos.x - 50, enemies[i].pos.y + 200};
         }
         // DrawRectangleRec(enemies[i].hitbox, YELLOW);
     }
