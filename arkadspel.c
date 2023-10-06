@@ -21,7 +21,7 @@ int main()
 
     LoadPlayer();  // Loads the player texture
     LoadEnemies(); // Loads the enemy texture
-    PathOrder();
+    PathOrder();   // Sets the order that the enemies are in when following the path
 
     // A while loop where everything that needs to be constantly updated is put in.
     while (!WindowShouldClose())
@@ -36,22 +36,11 @@ int main()
         PlayerShooting();                                         // Loads the projectiles for the player
         EnemyMovement();                                          // Loads the enemies movements
         EnemyHitbox();                                            // Loads the enemies hitboxes
+        CreateFormation();                                        // Creates the formation shape
 
-        switch (0)
-        {
-        case STATE_PATH:
-            FollowPath();
-            break;
-
-        case STATE_FORMATION:
-            break;
-
-        case STATE_DIVE:
-            break;
-
-        default:
-            break;
-        }
+        // SetRandomNum();
+        FollowPath();
+        SetFormation();
 
         // DrawLineBezierCubic(p1_left.curves[0].startPos, p1_left.curves[0].endPos, p1_left.curves[0].startControlPos, p1_left.curves[0].endControlPos, p1_left.curves[0].thick, p1_left.curves[0].color);
         // DrawLineBezierCubic(p1_left.curves[1].startPos, p1_left.curves[1].endPos, p1_left.curves[1].startControlPos, p1_left.curves[1].endControlPos, p1_left.curves[1].thick, p1_left.curves[1].color);
