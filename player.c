@@ -2,6 +2,7 @@ struct player
 {
     Vector2 pos;
     int speed;
+    int score;
 } player;
 
 Texture2D ship_img;
@@ -12,6 +13,8 @@ void LoadPlayer()
     Image player_image = LoadImage("Images/player_image.png");
     ship_img = LoadTextureFromImage(player_image);
     UnloadImage(player_image);
+
+    player.score = 0;
 }
 
 void PlayerMovement()

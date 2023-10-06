@@ -9,6 +9,7 @@
 #include "collision.c"
 #include "path.c"
 #include "formation.c"
+#include "gui.c"
 
 int main()
 {
@@ -21,8 +22,8 @@ int main()
 
     LoadPlayer();      // Loads the player texture
     LoadEnemies();     // Loads the enemy texture
-    PathOrder();       // Sets the order that the enemies are in when following the path
     CreateFormation(); // Creates the formation shape
+    PathOrder();       // Sets the order that the enemies are in when following the path
 
     // A while loop where everything that needs to be constantly updated is put in.
     while (!WindowShouldClose())
@@ -30,21 +31,28 @@ int main()
         BeginDrawing();
         ClearBackground(BLACK);
 
+        // if (current_enemies == 0)
+        // {
+        // }
+        // else
+        // {
+        FollowPath();   // Makes the enemies follow a path
+        SetFormation(); // Sets an enemy target position in the formation
+        // }
+
         BackgroundEffect(); // Draws the background effect
 
         DrawTexture(ship_img, player.pos.x, player.pos.y, WHITE); // Draws the player textures
         PlayerMovement();                                         // Loads the player movements and movement limits
         PlayerShooting();                                         // Loads the projectiles for the player
-        EnemyMovement();                                          // Loads the enemies movements
         EnemyHitbox();                                            // Loads the enemies hitboxes
+        EnemyMovement();                                          // Loads the enemies movements
 
-        // What happens if there are enemies alive
-        if (current_enemies > 0)
-        {
-            // SetRandomNum();
-            FollowPath();   // Makes the enemies follow a path
-            SetFormation(); // Sets an enemy target position in the formation
-        }
+        DrawGUI(); // Draws the GUI
+        // printf("          State: %d\n", enemies[0].current_state);
+        // printf("Current enemies: %d\n", current_enemies);
+
+        // SetRandomNum();
 
         EndDrawing();
     }
