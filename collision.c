@@ -4,6 +4,12 @@ void EnemyHitbox()
     {
         for (int j = 0; j < max_shots; j++)
         {
+            if (!enemies[i].exist)
+            {
+                continue;
+            }
+            
+
             if (CheckCollisionRecs(enemies[i].hitbox, projectiles[j].bullet) && projectiles[j].exist)
             {
                 projectiles[j].exist = false;

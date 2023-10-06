@@ -26,15 +26,6 @@ Vector2 QuadraticLerp(curve c, float t)
     return point;
 }
 
-// Sets the order that the enemies fly in on the screen
-void PathOrder()
-{
-    for (int i = 0; i < max_enemy_amount; i++)
-    {
-        enemies[i].completion = (-i % (max_enemy_amount / 2)) * 0.4;
-    }
-}
-
 // The shape of the left path for path 1
 path p1_left = (path){
     .current_path = 0,
@@ -103,11 +94,6 @@ void FollowPath()
     {
         if (enemies[i].current_state == STATE_PATH) // Checks if the current state is path to make the enemy follow a path
         {
-            // Checks if an enemy has reached the paths end and sets its state to STATE_FORMATION to get into a formation
-            if (enemies[i].following > 2)
-            {
-                enemies[i].current_state = STATE_FORMATION;
-            }
 
             enemies[i].spawn_cooldown += 0.5f * GetFrameTime(); // The enemy spawn cooldown
             // Checks if an enemy should spawn or not
@@ -116,10 +102,10 @@ void FollowPath()
                 // Updates "completion" that tells where on a curve an enemy should be.
                 // Also update which curve the enemy is on in the path and moves it to
                 // the next one when it reaches the end of a curve.
-                enemies[i].completion += 1.0f * GetFrameTime();
-                if (enemies[i].completion >= 1.0f)
+                enemies[i].completion_path += 1.0f * GetFrameTime();
+                if (enemies[i].completion_path >= 1.0f)
                 {
-                    enemies[i].completion -= 1.0f;
+                    enemies[i].completion_path -= 1.0f;
                     enemies[i].following++;
                 }
                 else
@@ -129,13 +115,19 @@ void FollowPath()
                     // Moves the enemies on the left and right path
                     if (i < 15)
                     {
-                        enemies[i].pos = QuadraticLerp(p1_left.curves[enemies[i].following], enemies[i].completion);
+                        enemies[i].pos = QuadraticLerp(p1_left.curves[enemies[i].following], enemies[i].completion_path);
                     }
                     else
                     {
-                        enemies[i].pos = QuadraticLerp(p1_right.curves[enemies[i].following], enemies[i].completion);
+                        enemies[i].pos = QuadraticLerp(p1_right.curves[enemies[i].following], enemies[i].completion_path);
                     }
                 }
+            }
+            
+            // Checks if an enemy has reached the paths end and sets its state to STATE_FORMATION to get into a formation
+            if (enemies[i].following > 2)
+            {
+                enemies[i].current_state = STATE_FORMATION;
             }
         }
     }

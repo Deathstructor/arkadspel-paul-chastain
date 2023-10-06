@@ -15,7 +15,7 @@ typedef struct enemy
     float speed;
     float rotation;
     float spawn_cooldown;
-    float completion;
+    float completion_path;
     float completion_formation;
 
     int current_state;
@@ -34,6 +34,15 @@ int current_enemies = 0;
 int behavior_cooldown = 0; // Variable used as cooldown timer for the behavior to change
 
 Texture2D alien_img[6];
+
+// Sets the order that the enemies fly in on the screen
+void PathOrder()
+{
+    for (int i = 0; i < max_enemy_amount; i++)
+    {
+        enemies[i].completion_path = (-i % (max_enemy_amount / 2)) * 0.4;
+    }
+}
 
 // Loads all enemy textures
 void LoadEnemies()
@@ -65,36 +74,15 @@ void LoadEnemies()
 
 void EnemyMovement()
 {
-    for (int i = 0; i < max_enemy_amount; i++)
-    {
-        // Assigns values if the enemy does not exist
-        if (!enemies[i].exist)
-        {
-            enemies[i].pos = (Vector2){0, -50};
-            enemies[i].current_state = 0;
-            enemies[i].in_pos = false;
-            // enemies[i].random_formation_pos = -1;
-            enemies[i].following = 0;
-            enemies[i].spawn_cooldown = 0;
-            enemies[i].hitbox = (Rectangle){-10, -10, 0, 0};
-            
-            if(current_enemies == 0 || enemies->current_state == STATE_DEAD)
-            {
-                for (int j = 0; j < max_enemy_amount; j++)
-                {
-                    enemies[j].current_state = STATE_PATH;
-                    // enemies[j].completion = 0;
-                    enemies[j].exist = true;
-                    current_enemies = max_enemy_amount;
-                }
-                
-            }
-        }
+    bool any_alive = false;
 
+    for (int i = 0; i < max_enemy_amount; i++)
+    {   
         // What happens if an enemy exists
         if (enemies[i].exist)
         {
             enemies[i].hitbox = (Rectangle){enemies[i].pos.x - 22, enemies[i].pos.y - 24, 44, 48}; // Creates the enemy hitbox
+            any_alive = true;
 
             // Rotates the enemy in the direction it's heading unless it's in position where it will be pointing down instead
             if (enemies[i].current_state == STATE_PATH && !enemies[i].in_pos)
@@ -115,6 +103,25 @@ void EnemyMovement()
                 enemies[i].rotation,
                 WHITE);
         }
-        // DrawRectangleRec(enemies[i].hitbox, YELLOW);
     }
+    if (any_alive)
+    {
+        return;
+    }
+
+    // Assigns values if the enemy does not exist
+    for (int i = 0; i < max_enemy_amount; i++)
+    {
+        enemies[i].pos = (Vector2){-100, -100};
+        enemies[i].current_state = STATE_PATH;
+        // enemies[i].random_formation_pos = -1;
+        enemies[i].following = 0;
+        enemies[i].in_pos = false;
+        enemies[i].hitbox = (Rectangle){-10, -10, 0, 0};
+        enemies[i].spawn_cooldown = 0;
+        enemies[i].completion_formation = 0;
+        enemies[i].exist = true;
+    }
+
+    PathOrder();
 }
