@@ -2,7 +2,8 @@ typedef enum enemy_states
 {
     STATE_PATH,
     STATE_FORMATION,
-    STATE_DIVE
+    STATE_DIVE,
+    STATE_DEAD
 } enemy_states;
 
 typedef struct enemy
@@ -15,6 +16,7 @@ typedef struct enemy
     float rotation;
     float spawn_cooldown;
     float completion;
+    float completion_formation;
 
     int current_state;
     int shoot_cooldown;
@@ -28,7 +30,7 @@ typedef struct enemy
 
 const int max_enemy_amount = 30;
 enemy enemies[max_enemy_amount];
-int current_enemies = NULL;
+int current_enemies = 0;
 int behavior_cooldown = 0; // Variable used as cooldown timer for the behavior to change
 
 Texture2D alien_img[6];
@@ -74,7 +76,19 @@ void EnemyMovement()
             // enemies[i].random_formation_pos = -1;
             enemies[i].following = 0;
             enemies[i].spawn_cooldown = 0;
-            enemies[i].exist = true;
+            enemies[i].hitbox = (Rectangle){-10, -10, 0, 0};
+            
+            if(current_enemies == 0 || enemies->current_state == STATE_DEAD)
+            {
+                for (int j = 0; j < max_enemy_amount; j++)
+                {
+                    enemies[j].current_state = STATE_PATH;
+                    // enemies[j].completion = 0;
+                    enemies[j].exist = true;
+                    current_enemies = max_enemy_amount;
+                }
+                
+            }
         }
 
         // What happens if an enemy exists
@@ -100,7 +114,6 @@ void EnemyMovement()
                 (Vector2){22, 24},
                 enemies[i].rotation,
                 WHITE);
-
         }
         // DrawRectangleRec(enemies[i].hitbox, YELLOW);
     }

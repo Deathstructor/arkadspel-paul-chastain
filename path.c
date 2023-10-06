@@ -107,7 +107,6 @@ void FollowPath()
             if (enemies[i].following > 2)
             {
                 enemies[i].current_state = STATE_FORMATION;
-                
             }
 
             enemies[i].spawn_cooldown += 0.5f * GetFrameTime(); // The enemy spawn cooldown

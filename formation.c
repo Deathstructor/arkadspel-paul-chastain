@@ -50,15 +50,15 @@ void SetFormation()
     {
         if (enemies[i].current_state == STATE_FORMATION) // Checks if the enemies state is STATE_FORMATION
         {
-            enemies[i].completion += completion_update;
+            enemies[i].completion_formation += completion_update;
 
-            enemies[i].pos = Vector2Lerp(enemies[i].pos , target_pos[i].pos, enemies[i].completion); // Lerps the enemy to its target position
-            // printf("%f", enemies[i].completion);
+            enemies[i].pos = Vector2Lerp(enemies[i].pos, target_pos[i].pos, enemies[i].completion_formation); // Lerps the enemy to its target position
 
             // Stopts updating completion and tells the program that the enemy is in position if "completion = 1"
-            if (enemies[i].completion >= 1.0f)
+            if (enemies[i].completion_formation >= 1.0f)
             {
                 completion_update = 0;
+                enemies[i].completion_formation -= 1.0f;
                 enemies[i].in_pos = true;
             }
         }

@@ -7,6 +7,9 @@ void EnemyHitbox()
             if (CheckCollisionRecs(enemies[i].hitbox, projectiles[j].bullet) && projectiles[j].exist)
             {
                 projectiles[j].exist = false;
+                enemies[i].current_state = STATE_DEAD;
+                current_enemies--;
+                player.score += 100;
                 enemies[i].exist = false;
             }
         }
