@@ -1,6 +1,8 @@
 struct player
 {
     Vector2 pos;
+    Rectangle hitbox;
+    int lives;
     int speed;
     int score;
 } player;
@@ -15,11 +17,13 @@ void LoadPlayer()
     UnloadImage(player_image);
 
     player.score = 0;
+    player.lives = 3;
 }
 
 void PlayerMovement()
 {
     player.speed = 4;
+    player.hitbox = (Rectangle){player.pos.x, player.pos.y, 44, 48};
 
     // Player movement on keypress
     if (IsKeyDown(KEY_A))
