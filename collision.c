@@ -9,13 +9,23 @@ void EnemyHitbox()
                 continue;
             }
             
-
-            if (CheckCollisionRecs(enemies[i].hitbox, projectiles[j].bullet) && projectiles[j].exist)
+            if (CheckCollisionRecs(enemies[i].hitbox, player_projectiles[j].bullet) && player_projectiles[j].exist)
             {
-                projectiles[j].exist = false;
-                enemies[i].current_state = STATE_DEAD;
-                current_enemies--;
+                player_projectiles[j].exist = false;
                 player.score += 100;
+                enemies[i].exist = false;
+            }
+
+            if (CheckCollisionRecs(player.hitbox, enemy_projectiles[i].bullet) && enemy_projectiles[i].exist)
+            {
+                enemy_projectiles[i].exist = false;
+                player.lives--;
+            }
+
+            if (CheckCollisionRecs(enemies[i].hitbox, player.hitbox))
+            {
+                player.score += 100;
+                player.lives--;
                 enemies[i].exist = false;
             }
         }
