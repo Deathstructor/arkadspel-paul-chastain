@@ -2,36 +2,34 @@ typedef enum enemy_states
 {
     STATE_PATH,
     STATE_FORMATION,
-    STATE_DIVE,
-    STATE_DEAD
+    STATE_DIVE
 } enemy_states;
 
 typedef struct enemy
 {
-    Vector2 prev_pos;
     Vector2 pos;
+    Vector2 prev_pos;
     Rectangle hitbox;
 
     float speed;
     float rotation;
     float spawn_cooldown;
+    float shoot_cooldown;
     float completion_path;
     float completion_formation;
 
     int current_state;
-    int shoot_cooldown;
     int img_randomizer;
     int following;
     // int random_formation_pos;
 
     bool exist;
     bool in_pos;
+    bool shoot;
 } enemy;
 
 const int max_enemy_amount = 30;
 enemy enemies[max_enemy_amount];
-int current_enemies = 0;
-int behavior_cooldown = 0; // Variable used as cooldown timer for the behavior to change
 
 Texture2D alien_img[6];
 
@@ -119,9 +117,32 @@ void EnemyMovement()
         enemies[i].in_pos = false;
         enemies[i].hitbox = (Rectangle){-10, -10, 0, 0};
         enemies[i].spawn_cooldown = 0;
+        enemies[i].shoot_cooldown = 0;
         enemies[i].completion_formation = 0;
         enemies[i].exist = true;
     }
 
     PathOrder();
+}
+
+void EnemyShootInterval()
+{
+    for (int i = 0; i < max_enemy_amount; i++)
+    {
+        if (enemies[i].current_state == STATE_FORMATION)
+        {
+            float set_shoot_cooldown = GetRandomValue(5, 35);
+            float update_shoot_cooldown = 1.0f * GetFrameTime();
+
+            enemies[i].shoot_cooldown += update_shoot_cooldown;
+            
+            if (enemies[i].shoot_cooldown >= set_shoot_cooldown && GetRandomValue(1, 30) == 1)
+            {
+                enemies[i].shoot = true;
+                enemies[i].shoot_cooldown = 0;
+            }
+        }
+    }
+    // printf("Cooldown: %f\n", enemies[0].shoot_cooldown);
+    // printf("Position: %f, %f\n", enemies[0].pos.x, enemies[0].pos.y);
 }
