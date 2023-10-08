@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "player.c"
+#include "enemy.c"
 #include "projectile.c"
 #include "background.c"
-#include "enemy.c"
 #include "collision.c"
 #include "path.c"
 #include "formation.c"
@@ -30,29 +30,21 @@ int main()
     {
         BeginDrawing();
         ClearBackground(BLACK);
+        BackgroundEffect(); // Draws the background effect
 
-        // if (current_enemies == 0)
-        // {
-        // }
-        // else
-        // {
         FollowPath();   // Makes the enemies follow a path
         SetFormation(); // Sets an enemy target position in the formation
-        // }
-
-        BackgroundEffect(); // Draws the background effect
+        // SetRandomNum();
 
         DrawTexture(ship_img, player.pos.x, player.pos.y, WHITE); // Draws the player textures
         PlayerMovement();                                         // Loads the player movements and movement limits
-        PlayerShooting();                                         // Loads the projectiles for the player
+        PlayerShooting();                                         // Draws the projectiles for the player
+        EnemyShooting();                                          // Draws the projectiles for the enemies
+        EnemyShootInterval();                                     // Loads the interval at which the enemies will shoot
         EnemyHitbox();                                            // Loads the enemies hitboxes
         EnemyMovement();                                          // Loads the enemies movements
 
         DrawGUI(); // Draws the GUI
-        // printf("          State: %d\n", enemies[0].current_state);
-        // printf("Current enemies: %d\n", current_enemies);
-
-        // SetRandomNum();
 
         EndDrawing();
     }
