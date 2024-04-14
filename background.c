@@ -5,7 +5,7 @@ typedef struct particle
     bool exist;
 } particle;
 
-const int particle_amount = 500;
+#define particle_amount 500
 particle particles[particle_amount];
 
 void BackgroundEffect()

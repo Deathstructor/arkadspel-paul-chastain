@@ -8,9 +8,9 @@ typedef struct projectile
     Rectangle bullet;
 } projectile;
 
-const int max_shots = 50;
+#define max_shots 50
 projectile player_projectiles[max_shots];
-projectile enemy_projectiles[max_shots];
+projectile enemy_projectiles[30];
 
 // The players projectiles
 void PlayerShooting()
@@ -73,12 +73,30 @@ void EnemyShooting()
             // Checks if the projectile exists and removes is if it goes off screen.
             if (enemy_projectiles[i].pos.y > GetScreenHeight())
             {
+                if (enemy_projectiles[5].exist && enemy_projectiles[5].pos.y > GetScreenHeight())
+                {
+                    printf("projectile 5 deleted");
+                }
                 enemy_projectiles[i].exist = false;
                 enemies[i].shoot = false;
+
+                // for (int j = i; j < max_enemy_amount; j++)
+                // {
+                //     enemy_projectiles[j] = enemy_projectiles[j + 1];
+                // }
+
+                
+                // enemy_projectiles[i].exist = false;
+                // enemies[i].shoot = false;
             }
 
             // Draws the enemies projectiles
-            DrawRectangleRec(enemy_projectiles[i].bullet, PURPLE);
+            if (enemy_projectiles[5].exist) {
+                printf("projectile %d exists\n", 5);
+                DrawRectangleRec(enemy_projectiles[5].bullet, GREEN);
+            } else {
+                DrawRectangleRec(enemy_projectiles[i].bullet, PURPLE);
+            }
         }
     }
 }

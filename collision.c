@@ -18,6 +18,7 @@ void EnemyHitbox()
 
             if (CheckCollisionRecs(player.hitbox, enemy_projectiles[i].bullet) && enemy_projectiles[i].exist)
             {
+                enemy_projectiles[i].pos = (Vector2){enemies[i].pos.x, enemies[i].pos.y - 10};
                 enemy_projectiles[i].exist = false;
                 player.lives--;
             }

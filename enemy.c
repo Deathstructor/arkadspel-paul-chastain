@@ -1,3 +1,4 @@
+
 typedef enum enemy_states
 {
     STATE_PATH,
@@ -28,7 +29,7 @@ typedef struct enemy
     bool shoot;
 } enemy;
 
-const int max_enemy_amount = 30;
+#define max_enemy_amount 30
 enemy enemies[max_enemy_amount];
 
 Texture2D alien_img[6];
@@ -136,7 +137,7 @@ void EnemyShootInterval()
 
             enemies[i].shoot_cooldown += update_shoot_cooldown;
             
-            if (enemies[i].shoot_cooldown >= set_shoot_cooldown && GetRandomValue(1, 30) == 1)
+            if (enemies[i].shoot_cooldown >= set_shoot_cooldown && GetRandomValue(1, 50) == 1)
             {
                 enemies[i].shoot = true;
                 enemies[i].shoot_cooldown = 0;
