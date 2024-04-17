@@ -38,8 +38,10 @@ int main()
 
         DrawTexture(ship_img, player.pos.x, player.pos.y, WHITE); // Draws the player textures
         PlayerMovement();                                         // Loads the player movements and movement limits
-        PlayerShooting();                                         // Draws the projectiles for the player
-        EnemyShooting();                                          // Draws the projectiles for the enemies
+        UpdateProjectile();                                       // Updates all projectiles
+        PlayerShooting();                                         // Handles what to do when the player shoots
+        EnemyShooting();                                          // Handles what to do when an enemy shoots
+        DrawProjectiles();                                        // Draws the projectiles
         EnemyShootInterval();                                     // Loads the interval at which the enemies will shoot
         EnemyHitbox();                                            // Loads the enemies hitboxes
         EnemyMovement();                                          // Loads the enemies movements

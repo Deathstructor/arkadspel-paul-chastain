@@ -130,9 +130,9 @@ void EnemyShootInterval()
 {
     for (int i = 0; i < max_enemy_amount; i++)
     {
-        if (enemies[i].current_state == STATE_FORMATION)
+        if (enemies[i].current_state == STATE_FORMATION && !enemies[i].shoot)
         {
-            float set_shoot_cooldown = GetRandomValue(5, 35);
+            float set_shoot_cooldown = GetRandomValue(5, 45);
             float update_shoot_cooldown = 1.0f * GetFrameTime();
 
             enemies[i].shoot_cooldown += update_shoot_cooldown;
